@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>JS Game</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        canvas {
+            background: rgb(50, 50, 50);
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+
+    <script>
+        //    //red square
+        //    ctx.beginPath();
+        //    ctx.rect(20, 40, 50, 50);
+        //    ctx.fillStyle = "#FF0000";
+        //    ctx.fill();
+        //    ctx.closePath();
+        //    //green arc
+        //    ctx.beginPath();
+        //    ctx.arc(240, 160, 20, 0, Math.PI*2, false);
+        //    ctx.fillStyle = "green";
+        //    ctx.fill();
+        //    ctx.closePath();
+        //    //blue rect outline
+        //    ctx.beginPath();
+        //    ctx.rect(160, 10, 100, 40);
+        //    ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
+        //    ctx.stroke();
+        //    ctx.closePath();
+
+        var canvas = document.getElementById("myCanvas");
+        var score = 0;
+        var ctx = canvas.getContext("2d");
+        var x = canvas.width / 2;
+        var y = canvas.height - 30;
+        var xdir = 1;
+        var ydir = 1;
+        var dx = 1;
+        var dy = 1;
+        var bcolor_array = [
+            "whitesmoke",
+            "pink",
+            "limegreen",
+            "aqua",
+            "#fc5112",
+            "lightgrey",
+            "#eb07a2",
+            "#633beb"
+        ];
+        var bcolor = bcolor_array[0];
+        var rightPressed = false;
+        var leftPressed = false;
+        var paddleHeight = 10;
+        var paddleWidth = 75;
+        var paddleX = (canvas.width - paddleWidth) / 2;
+
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+        function keyDownHandler(e) {
+            if (e.keyCode == 39) {
+                rightPressed = true;
+            } else if (e.keyCode == 37) {
+                leftPressed = true;
+            }
+        }
+
+        function keyUpHandler(e) {
+            if (e.keyCode == 39) {
+                rightPressed = false;
+            } else if (e.keyCode == 37) {
+                leftPressed = false;
+            }
+        }
+        
+        function drawPaddle() {
+            ctx.beginPath();
+            ctx.rect(paddleX, canvas.height-paddleHeight-10, paddleWidth, paddleHeight);
+            ctx.fillStyle = "whitesnow";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, Math.PI * 2);
+            ctx.fillStyle = bcolor;
+            ctx.fill();
+            ctx.closePath;
+
+            if (x > canvas.width) {
+                xdir = -1;
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            } else if (x < 0) {
+                xdir = 1;
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            }
+            if (y < 0) {
+                ydir = 1;
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            } else if (y >= canvas.height) {
+                ydir = -1;
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            }
+            x += (dx * xdir);
+            y += (dy * ydir);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            drawPaddle();
+            
+            if(rightPressed && paddleX < canvas.width-paddleWidth) {
+                paddleX += 7;
+            }
+            else if(leftPressed && paddleX > 0) {
+                paddleX -= 7;
+            }
+        }
+
+        setInterval(draw, 10);
+    </script>
+
+</body>
+
+</html>

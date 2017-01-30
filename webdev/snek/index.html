@@ -23,89 +23,113 @@
     <canvas id="myCanvas" width="480" height="320"></canvas>
 
     <script>
-        //    //red square
-        //    ctx.beginPath();
-        //    ctx.rect(20, 40, 50, 50);
-        //    ctx.fillStyle = "#FF0000";
-        //    ctx.fill();
-        //    ctx.closePath();
-        //    //green arc
-        //    ctx.beginPath();
-        //    ctx.arc(240, 160, 20, 0, Math.PI*2, false);
-        //    ctx.fillStyle = "green";
-        //    ctx.fill();
-        //    ctx.closePath();
-        //    //blue rect outline
-        //    ctx.beginPath();
-        //    ctx.rect(160, 10, 100, 40);
-        //    ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-        //    ctx.stroke();
-        //    ctx.closePath();
-
         var canvas = document.getElementById("myCanvas");
+        var score = 0;
         var ctx = canvas.getContext("2d");
-        var x = canvas.width / 2;
-        var y = canvas.height - 30;
-        var xdir = 1;
-        var ydir = 1;
-        var dx = 2;
-        var dy = 2;
-        var bcolor_array= [
-            "whitesmoke",
-            "pink",
-            "limegreen",
-            "aqua",
-            "#fc5112",
-            "lightgrey",
-            "#eb07a2",
-            "#633beb"
-        ];
-        var bcolor = bcolor_array[0];
-        var paddle = {
-            paddleHeight: 10,
-            paddleWidth: 56,
-            paddleX: (canvas.width - this.paddleWidth)/2
-        };    
-        
-        function drawPaddle() {
-            ctx.beginPath();
-            ctx.rect(paddle.paddleX, (canvas.height - paddle.paddleHeight), paddle.paddleWidth, paddle.paddleHeighst);
-            ctx.fillStyle = "whitesnow";
-            ctx.fill();
-            ctx.closePath();
+        var rightPressed = false;
+        var leftPressed = false;
+        var upPressed = false;
+        var downPressed = false;
+        var snekHead = {
+            x: 10,
+            y: 10,
+            h: 10,
+            w: 10,
+            s: 10
+        };
+        var food = {
+            x: Math.floor(Math.random() * canvas.width),
+            y: Math.floor(Math.random() * canvas.height),
+            h: 10,
+            w: 10,
+            alive: true
+        };
+
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+        function keyDownHandler(e) {
+            if (e.keyCode == 37) {
+                leftPressed = true;
+                upPressed = false;
+                rightPressed = false;
+                downPressed = false;
+            } else if (e.keyCode == 38) {
+                leftPressed = false;
+                upPressed = true;
+                rightPressed = false;
+                downPressed = false;
+            } else if (e.keyCode == 39) {
+                leftPressed = false;
+                upPressed = false;
+                rightPressed = true;
+                downPressed = false;
+            } else if (e.keyCode == 40) {
+                leftPressed = false;
+                upPressed = false;
+                rightPressed = false;
+                downPressed = true;
+
+            }
         }
 
-        function drawBall() {
+        function keyUpHandler(e) {
+            if (e.keyCode == 37) {
+                leftPressed = false;
+            } else if (e.keyCode == 38) {
+                upPressed = false;
+            } else if (e.keyCode == 39) {
+                rightPressed = false;
+            } else if (e.keyCode == 40) {
+                downPressed = false;
+            }
+        }
+        
+        function foodEaten() {
+            food.alive = false;
+            score += 1;
+        }
+
+        function drawFood() {
             ctx.beginPath();
-            ctx.arc(x, y, 10, 0, Math.PI * 2);
-            ctx.fillStyle = bcolor;
+            ctx.rect(food.x, food.y, food.w, food.h);
+            ctx.fillStyle = "HotPink";
+            ctx.fill();
+            ctx.closePath;
+        }
+
+        function drawSnek() {
+            ctx.beginPath();
+            ctx.rect(snekHead.x, snekHead.y, snekHead.w, snekHead.h);
+            ctx.fillStyle = "white";
             ctx.fill();
             ctx.closePath;
 
-            if (x > canvas.width) {
-                xdir = -1;
-                bcolor = bcolor_array[Math.floor(Math.random()* bcolor_array.length)]
-            } else if (x < 0){
-                xdir = 1;
-                bcolor = bcolor_array[Math.floor(Math.random()* bcolor_array.length)]
+            if (leftPressed && snekHead.x > 0) {
+                snekHead.x -= snekHead.s;
+            } else if (upPressed && snekHead.y > 0) {
+                snekHead.y -= snekHead.s;
+            } else if (rightPressed && (snekHead.x < (canvas.width - snekHead.w))) {
+                snekHead.x += snekHead.s;
+            } else if (downPressed && (snekHead.y < (canvas.height - snekHead.h))) {
+                snekHead.y += snekHead.s;
             }
-            if (y < 0) {
-                ydir = 1;
-                bcolor = bcolor_array[Math.floor(Math.random()* bcolor_array.length)]
-            } else if (y >= canvas.height){
-                ydir = -1;
-                bcolor = bcolor_array[Math.floor(Math.random()* bcolor_array.length)]
-            }
-            x += (dx * xdir);
-            y += (dy * ydir);
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBall();
-            drawPaddle();
+            if (food.alive) {
+                drawFood();
+            }
+            drawSnek();
+            
+                console.log("score: " + score);
+            if (Math.floor((Math.abs(snekHead.x - food.x))) <= 1 && Math.floor(Math.abs(snekHead.y - food.y) <= 1)) {
+                foodEaten();
+            }
         }
-        setInterval(draw, 10);
+
+        setInterval(draw, 60);
     </script>
 
 </body>
