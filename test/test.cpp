@@ -1,25 +1,30 @@
 #include <iostream>
-#include <string.h>
 
 using namespace std;
 
-int f(int n) {
-	if (n < 0) {
-		return -1;
-	} else if (n == 0) {
-		return 0;
-	} else {
-		return 1;
-	}
-}
+class C {
+public:
+	C() {i = 1; cout << "C0:" << i << endl;}
+
+	C(int i0) {i = i0; cout << "C1:" << i << endl;}
+
+	~C() {cout << "C2:" << i << endl;}
+private:
+	int i;
+};
+
+class D {
+public:
+	D() {cout << "D0" << endl;}
+	~D() {cout << "D1" << endl;}
+private:
+	C c;
+};
+
 int main(int argc, char* argv[]) {
-	char a[10];
-	char b[10];
-	int n;
+	cout << "X" << endl;
+	D *d = new D;
+	cout << "Y" << endl;
 
-	strcpy(a, "");
-	strcpy(b, "abc");
-
-	n = strcmp(a, b);
-	cout << f(n) << endl;
+	delete d;
 }

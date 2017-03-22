@@ -17,7 +17,7 @@
         }
     </style>
 </head>
-
+    
 <body>
 
     <canvas id="myCanvas" width="480" height="320"></canvas>
@@ -30,6 +30,8 @@
         var leftPressed = false;
         var upPressed = false;
         var downPressed = false;
+        var gridx = range(0, canvas.width+1, food.w);
+        var gridy = range(0, canvas.height+1, food.h);
         var snekHead = {
             x: 10,
             y: 10,
@@ -39,7 +41,7 @@
         };
         var food = {
             x: Math.floor(Math.random() * canvas.width),
-            y: Math.floor(Math.random() * canvas.height),
+            y: gridy[Math.floor(Math.random() * gridx.len)],
             h: 10,
             w: 10,
             alive: true
