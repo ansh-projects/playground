@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>JS Game</title>
+    <title>BlokBustr</title>
     <style>
         * {
             padding: 0;
@@ -11,7 +11,7 @@
         }
         
         canvas {
-            background: rgb(50, 50, 50);
+            background: rgb(69, 69, 69);
             display: block;
             margin: 0 auto;
         }
@@ -20,37 +20,20 @@
 
 <body>
 
-    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <canvas id="canvas" width="480" height="320"></canvas>
 
     <script>
-        //    //red square
-        //    ctx.beginPath();
-        //    ctx.rect(20, 40, 50, 50);
-        //    ctx.fillStyle = "#FF0000";
-        //    ctx.fill();
-        //    ctx.closePath();
-        //    //green arc
-        //    ctx.beginPath();
-        //    ctx.arc(240, 160, 20, 0, Math.PI*2, false);
-        //    ctx.fillStyle = "green";
-        //    ctx.fill();
-        //    ctx.closePath();
-        //    //blue rect outline
-        //    ctx.beginPath();
-        //    ctx.rect(160, 10, 100, 40);
-        //    ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-        //    ctx.stroke();
-        //    ctx.closePath();
 
-        var canvas = document.getElementById("myCanvas");
+        var canvas = document.getElementById("canvas");
         var score = 0;
         var ctx = canvas.getContext("2d");
         var x = canvas.width / 2;
         var y = canvas.height - 30;
         var xdir = 1;
-        var ydir = 1;
-        var dx = 1;
-        var dy = 1;
+        var ydir = -1;
+        var dx = 2;
+        var dy = 2;
+        var lives = 3;
         var bcolor_array = [
             "whitesmoke",
             "pink",
@@ -64,9 +47,13 @@
         var bcolor = bcolor_array[0];
         var rightPressed = false;
         var leftPressed = false;
-        var paddleHeight = 10;
-        var paddleWidth = 75;
-        var paddleX = (canvas.width - paddleWidth) / 2;
+        var paddle = {
+            width: 75,
+            height: 10,
+            cx: (canvas.width - 75) / 2,
+            cy: canvas.height-20
+        };
+         console.log(paddle.height);
 
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
@@ -89,7 +76,7 @@
         
         function drawPaddle() {
             ctx.beginPath();
-            ctx.rect(paddleX, canvas.height-paddleHeight-10, paddleWidth, paddleHeight);
+            ctx.rect(paddle.cx, paddle.cy, paddle.width, paddle.height);
             ctx.fillStyle = "whitesnow";
             ctx.fill();
             ctx.closePath();
@@ -97,11 +84,11 @@
 
         function drawBall() {
             ctx.beginPath();
-            ctx.arc(x, y, 10, 0, Math.PI * 2);
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
             ctx.fillStyle = bcolor;
             ctx.fill();
             ctx.closePath;
-
+//            console.log(y);
             if (x > canvas.width) {
                 xdir = -1;
                 bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
@@ -109,12 +96,16 @@
                 xdir = 1;
                 bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
             }
-            if (y < 0) {
-                ydir = 1;
+            if (y == 0) {
+                ydir = -ydir;
                 bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
-            } else if (y >= canvas.height) {
-                ydir = -1;
-                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            } else if (y == canvas.height) {
+                lives -= 1;
+                ydir = -ydir;
+//                if(lives == 0) {
+//                    alert("game over");
+//                    document.location.reload();
+//                }
             }
             x += (dx * xdir);
             y += (dy * ydir);
@@ -125,11 +116,11 @@
             drawBall();
             drawPaddle();
             
-            if(rightPressed && paddleX < canvas.width-paddleWidth) {
-                paddleX += 7;
+            if(rightPressed && paddle.cx < canvas.width - paddle.width) {
+                paddle.cx += 7;
             }
-            else if(leftPressed && paddleX > 0) {
-                paddleX -= 7;
+            else if(leftPressed && paddle.cx > 0) {
+                paddle.cx -= 7;
             }
         }
 
