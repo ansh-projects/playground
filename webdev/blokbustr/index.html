@@ -15,6 +15,7 @@
             display: block;
             margin: 0 auto;
         }
+
     </style>
 </head>
 
@@ -23,13 +24,12 @@
     <canvas id="canvas" width="480" height="320"></canvas>
 
     <script>
-
         var canvas = document.getElementById("canvas");
         var score = 0;
         var ctx = canvas.getContext("2d");
         var lives = 3;
         var ball = {
-            radius: 5,
+            radius: 2.5,
             speed: 2,
             xdir: 1,
             ydir: -1,
@@ -43,25 +43,30 @@
             "aqua",
             "#fc5112",
             "lightgrey",
-            "#eb07a2",
-            "#633beb"
+            "#f223b0",
+            "#78ffe5"
         ];
         var bcolor = bcolor_array[0];
         var rightPressed = false;
         var leftPressed = false;
+        var spacePressed = false;
         var paddle = {
             width: 75,
             height: 3,
             cx: (canvas.width - 75) / 2,
-            cy: canvas.height-20
+            cy: canvas.height - 20,
+            speed: 3
         };
-         console.log(paddle.height);
 
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
 
         function keyDownHandler(e) {
-            if (e.keyCode == 39) {
+            if (e.keyCode == 32) {
+                spacePressed = true;
+                console.log(spacePressed);
+            }
+            else if (e.keyCode == 39) {
                 rightPressed = true;
             } else if (e.keyCode == 37) {
                 leftPressed = true;
@@ -69,13 +74,17 @@
         }
 
         function keyUpHandler(e) {
-            if (e.keyCode == 39) {
+            if (e.keyCode == 32) {
+                spacePressed = false;
+                console.log(spacePressed);
+            }
+            else if (e.keyCode == 39) {
                 rightPressed = false;
             } else if (e.keyCode == 37) {
                 leftPressed = false;
             }
         }
-        
+
         function drawPaddle() {
             ctx.beginPath();
             ctx.rect(paddle.cx, paddle.cy, paddle.width, paddle.height);
@@ -90,18 +99,21 @@
             ctx.fillStyle = bcolor;
             ctx.fill();
             ctx.closePath;
-//            console.log(y);
+            //            console.log(y);
             if (ball.cy == canvas.height) {
-                ball.cy = canvas.height;
-                ball.cx = canvas.width/2;
-                ball.ydir *= -1;
+                ball.cx = canvas.width / 2;
+                ball.cy = canvas.height - 35;
+                ball.ydir *= 0;
+                ball.xdir *= 0;
                 lives -= 1;
-//              if(lives == 0) {
-//                  alert("game over");
-//                  document.location.reload();
-//              }
+                if (lives == 0) {
+                    alert("game over");
+                    document.location.reload();
+                } else if (spacePressed) {
+                    ball.ydir *= -1;
+                    ball.xdir *= 1;
+                }
             }
-            
             if (ball.cx > canvas.width) {
                 ball.xdir = -1;
                 bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
@@ -112,7 +124,7 @@
             if (ball.cy == 0) {
                 ball.ydir *= -1;
                 bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
-            } else if(ball.cy == paddle.cy &&ball.cx > paddle.cx && ball.cx < paddle.cx + paddle.width){
+            } else if (ball.cy == paddle.cy && ball.cx > paddle.cx && ball.cx < paddle.cx + paddle.width) {
                 ball.ydir *= -1;
             }
 
@@ -124,16 +136,16 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall();
             drawPaddle();
-            
-            if(rightPressed && paddle.cx < canvas.width - paddle.width) {
-                paddle.cx += 7;
-            }
-            else if(leftPressed && paddle.cx > 0) {
-                paddle.cx -= 7;
+
+            if (rightPressed && paddle.cx < canvas.width - paddle.width) {
+                paddle.cx += paddle.speed;
+            } else if (leftPressed && paddle.cx > 0) {
+                paddle.cx -= paddle.speed;
             }
         }
 
         setInterval(draw, 10);
+
     </script>
 
 </body>
