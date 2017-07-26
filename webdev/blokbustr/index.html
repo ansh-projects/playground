@@ -27,13 +27,15 @@
         var canvas = document.getElementById("canvas");
         var score = 0;
         var ctx = canvas.getContext("2d");
-        var x = canvas.width / 2;
-        var y = canvas.height - 30;
-        var xdir = 1;
-        var ydir = -1;
-        var dx = 2;
-        var dy = 2;
         var lives = 3;
+        var ball = {
+            radius: 5,
+            speed: 2,
+            xdir: 1,
+            ydir: -1,
+            cx: canvas.width / 2,
+            cy: canvas.height - 30
+        };
         var bcolor_array = [
             "whitesmoke",
             "pink",
@@ -49,7 +51,7 @@
         var leftPressed = false;
         var paddle = {
             width: 75,
-            height: 10,
+            height: 3,
             cx: (canvas.width - 75) / 2,
             cy: canvas.height-20
         };
@@ -84,31 +86,38 @@
 
         function drawBall() {
             ctx.beginPath();
-            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.arc(ball.cx, ball.cy, ball.radius, 0, Math.PI * 2);
             ctx.fillStyle = bcolor;
             ctx.fill();
             ctx.closePath;
 //            console.log(y);
-            if (x > canvas.width) {
-                xdir = -1;
-                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
-            } else if (x < 0) {
-                xdir = 1;
-                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
-            }
-            if (y == 0) {
-                ydir = -ydir;
-                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
-            } else if (y == canvas.height) {
+            if (ball.cy == canvas.height) {
+                ball.cy = canvas.height;
+                ball.cx = canvas.width/2;
+                ball.ydir *= -1;
                 lives -= 1;
-                ydir = -ydir;
-//                if(lives == 0) {
-//                    alert("game over");
-//                    document.location.reload();
-//                }
+//              if(lives == 0) {
+//                  alert("game over");
+//                  document.location.reload();
+//              }
             }
-            x += (dx * xdir);
-            y += (dy * ydir);
+            
+            if (ball.cx > canvas.width) {
+                ball.xdir = -1;
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            } else if (ball.cx < 0) {
+                ball.xdir = 1;
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            }
+            if (ball.cy == 0) {
+                ball.ydir *= -1;
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+            } else if(ball.cy == paddle.cy &&ball.cx > paddle.cx && ball.cx < paddle.cx + paddle.width){
+                ball.ydir *= -1;
+            }
+
+            ball.cx += (ball.speed * ball.xdir);
+            ball.cy += (ball.speed * ball.ydir);
         }
 
         function draw() {
