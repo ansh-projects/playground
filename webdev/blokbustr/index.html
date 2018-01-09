@@ -9,7 +9,7 @@
             padding: 0;
             margin: 0;
         }
-        
+
         canvas {
             background: rgb(69, 69, 69);
             display: block;
@@ -50,6 +50,7 @@
         var rightPressed = false;
         var leftPressed = false;
         var spacePressed = false;
+        var frozen = false;
         var paddle = {
             width: 75,
             height: 3,
@@ -65,8 +66,7 @@
             if (e.keyCode == 32) {
                 spacePressed = true;
                 console.log(spacePressed);
-            }
-            else if (e.keyCode == 39) {
+            } else if (e.keyCode == 39) {
                 rightPressed = true;
             } else if (e.keyCode == 37) {
                 leftPressed = true;
@@ -77,8 +77,7 @@
             if (e.keyCode == 32) {
                 spacePressed = false;
                 console.log(spacePressed);
-            }
-            else if (e.keyCode == 39) {
+            } else if (e.keyCode == 39) {
                 rightPressed = false;
             } else if (e.keyCode == 37) {
                 leftPressed = false;
@@ -93,26 +92,30 @@
             ctx.closePath();
         }
 
-        function drawBall() {
+        function drawBall(frozen) {
             ctx.beginPath();
             ctx.arc(ball.cx, ball.cy, ball.radius, 0, Math.PI * 2);
             ctx.fillStyle = bcolor;
             ctx.fill();
             ctx.closePath;
             //            console.log(y);
-            if (ball.cy == canvas.height) {
+            if (ball.cy >= canvas.height) {
                 ball.cx = canvas.width / 2;
                 ball.cy = canvas.height - 35;
-                ball.ydir *= 0;
-                ball.xdir *= 0;
-                lives -= 1;
-                if (lives == 0) {
-                    alert("game over");
-                    document.location.reload();
-                } else if (spacePressed) {
-                    ball.ydir *= -1;
-                    ball.xdir *= 1;
-                }
+                ball.ydir *= -1;
+                ball.xdir *= 1;
+                console.log("cx:" + ball.cx);
+                console.log("cy:" + ball.cy);
+                bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
+
+                //                lives -= 1;
+                //                if (lives == 0) {
+                //                    alert("game over");
+                //                    document.location.reload();
+                //                } else if (frozen) {
+                //                    ball.ydir *= -1;
+                //                    ball.xdir *= 1;
+                //                }
             }
             if (ball.cx > canvas.width) {
                 ball.xdir = -1;
@@ -121,7 +124,7 @@
                 ball.xdir = 1;
                 bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
             }
-            if (ball.cy == 0) {
+            if (ball.cy == 0 || ball.cy < 0) {
                 ball.ydir *= -1;
                 bcolor = bcolor_array[Math.floor(Math.random() * bcolor_array.length)]
             } else if (ball.cy == paddle.cy && ball.cx > paddle.cx && ball.cx < paddle.cx + paddle.width) {
@@ -130,11 +133,19 @@
 
             ball.cx += (ball.speed * ball.xdir);
             ball.cy += (ball.speed * ball.ydir);
+            console.log("space:" + frozen);
+
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBall();
+            if (spacePressed) {
+                frozen = true;
+            } else {
+                frozen = false;
+            }
+            //            console.log("space:" + frozen);
+            drawBall(frozen);
             drawPaddle();
 
             if (rightPressed && paddle.cx < canvas.width - paddle.width) {
