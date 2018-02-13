@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>boop</title>
+    <style>
+        .colours {
+            position: relative;
+            height: 20px;
+            width: 20px;
+            cursor: pointer;
+            float: left;
+            margin: 2px;
+            border-radius: 100%;
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="colours-wrapper" style="overflow: hidden;">
+        <div onClick=bfs("red") class="colours" style="background-color: red;"></div>
+        <div onClick=bfs("darkorange") class="colours" style="background-color: darkorange;"></div>
+        <div onClick=bfs("yellow") class="colours" style="background-color: yellow;"></div>
+        <div onClick=bfs("lawngreen") class="colours" style="background-color: lawngreen;"></div>
+        <div onClick=bfs("#4dd2ff") class="colours" style="background-color: #4dd2ff;"></div>
+        <div onClick=bfs("#993ddd") class="colours" style="background-color: #993ddd;"></div>
+        <div onClick=bfs("magenta") class="colours" style="background-color: magenta;"></div>
+    </div>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        var colours = [
+            "red",
+            "darkorange",
+            "yellow",
+            "lawngreen",
+            "#4dd2ff",
+            "#993ddd",
+            "magenta"
+        ];
+        var elements = [];
+        var eid = 0;
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+        for (var i = 0; i < 20; i++) {
+            for (var j = 0; j < 20; j++) {
+                var rCol = colours[Math.floor(Math.random() * 7)];
+                ctx.fillStyle = rCol;
+                ctx.fillRect(i*25,j*25, 25, 25);
+                elements.push({
+                    id: eid++,
+                    colour: rCol,
+                    visited: false
+                });
+                console.log(elements[eid-1].id + " " + elements[eid-1].colour)
+            }
+        }
+        function bfs(colour){
+            ctx.fillStyle = colour;
+            ctx.fillRect(0,0, 25, 25);
+        }
+    </script>
+</body>
+</html>
