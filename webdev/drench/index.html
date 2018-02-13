@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+    <head>
     <title>boop</title>
     <style>
         .colours {
@@ -14,19 +13,18 @@
             border-radius: 100%;
             border: 1px solid grey;
         }
-
     </style>
 </head>
 
 <body>
     <div id="colours-wrapper" style="overflow: hidden;">
-        <div onClick=bfs(0, "red") class="colours" style="background-color: red;"></div>
-        <div onClick=bfs(0, "darkorange") class="colours" style="background-color: darkorange;"></div>
-        <div onClick=bfs(0, "yellow") class="colours" style="background-color: yellow;"></div>
-        <div onClick=bfs(0, "lawngreen") class="colours" style="background-color: lawngreen;"></div>
-        <div onClick=bfs(0, "#4dd2ff") class="colours" style="background-color: #4dd2ff;"></div>
-        <div onClick=bfs(0, "#993ddd") class="colours" style="background-color: #993ddd;"></div>
-        <div onClick=bfs(0, "magenta") class="colours" style="background-color: magenta;"></div>
+        <div onclick="bfs(0, 'red')" class="colours" style="background-color: red;"></div>
+        <div onclick="bfs(0, 'darkorange')" class="colours" style="background-color: darkorange;"></div>
+        <div onclick="bfs(0, 'yellow')" class="colours" style="background-color: yellow;"></div>
+        <div onclick="bfs(0, 'lawngreen')" class="colours" style="background-color: lawngreen;"></div>
+        <div onclick="bfs(0, '#4dd2ff')" class="colours" style="background-color: #4dd2ff;"></div>
+        <div onclick="bfs(0, '#993ddd')" class="colours" style="background-color: #993ddd;"></div>
+        <div onclick="bfs(0, 'magenta')" class="colours" style="background-color: magenta;"></div>
     </div>
     <canvas id="canvas" width="500" height="500"></canvas>
     <script>
@@ -51,42 +49,50 @@
                 ctx.fillStyle = rCol;
                 ctx.fillRect(i * 25, j * 25, 25, 25);
                 elements.push({
+                    x: i * 25,
+                    y: j * 25,
                     id: eid++,
                     colour: rCol,
                     visited: false,
-                    neighbour: []
+                    neighbours: []
                 });
-                console.log(elements[eid - 1].id + " " + elements[eid - 1].colour)
+                //                console.log(elements[eid - 1].id + " " + elements[eid - 1].colour)
             }
         }
         makeNeighbours();
         //make graph
         function makeNeighbours() {
-            var id = 0;
+            var eid = 0;
             for (var i = 0; i < 19; i++) {
                 for (var j = 0; j < 19; j++) {
-                    if (elements[id].color == elements[id + 20].colour) {
-                        elements[id].neighbour.push(elements[id + 20]);
-                        elements[id + 20].neighbour.push(elements[id]);
+                    //need left right up down logic
+                    if (elements[eid].colour == elements[eid + 20].colour) {
+                        elements[eid].neighbours.push(elements[eid + 20]);
+                        elements[eid + 20].neighbours.push(elements[eid]);
                     }
-                    if (elements[id].color == elements[id + 1].colour) {
-                        elements[id].neighbour.push(elements[id + 1]);
-                        elements[id + 1].neighbour.push(elements[id]);
+                    if (elements[eid].colour == elements[eid + 1].colour) {
+                        elements[eid].neighbours.push(elements[eid + 1]);
+                        elements[eid + 1].neighbours.push(elements[eid]);
                     }
                     eid++;
                 }
             }
         }
 
-        function bfs(eid, colour) {
-            elements[eid].visited = true;
+        function bfs(id, colour) {
+//            elements[id].visited = true;
             ctx.fillStyle = colour;
-
-            ctx.fillRect(0, 0, 25, 25);
+            ctx.fillRect(elements[id].y, elements[id].x, 25, 25);
+            elements[id].colour = colour;
+            makeNeighbours();
+            for (neighbour in elements[id].neighbours) {
+                console.log(elements[0].neighbours);
+                if (!neighbour.visited) {
+                    bfs(neighbour.id, colour);
+                }
+            }
 
         }
-
     </script>
 </body>
-
 </html>
