@@ -18,4 +18,4 @@ lines = [x.strip() for x in lines]
 lines.sort(key = lambda s: s.lower())
 lines.sort(key = lambda s: check(s.decode('utf8')))
 for x in lines:
-    print xs
+    print x
