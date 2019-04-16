@@ -1,0 +1,26 @@
+/*  application wide style */
+h1 {
+  color: lightgrey;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 250%;
+  font-weight: bold;
+}
+
+h2, h3 {
+  color: purple;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+body {
+  margin: 2em;
+}
+
+body, input[text], button {
+  color: violet;
+  font-family: Cambria, Georgia;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
