@@ -1,0 +1,19 @@
+body * {
+    margin: 0 auto;
+}
+
+body {
+    background-color: pink;
+}
+
+#statusBar {
+    width: 90vw;
+    height: 10vh;
+    background-color: paleturquoise;
+}
+
+#mineField {
+    background-color: palegreen;
+    width: 90vw;
+    height: 80vh;
+}
