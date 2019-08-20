@@ -3,17 +3,108 @@ body * {
 }
 
 body {
-    background-color: pink;
+    background-color: whitesmoke;
 }
 
-#statusBar {
+#statusbar {
     width: 90vw;
     height: 10vh;
-    background-color: paleturquoise;
+    background-color: #333;
+    border: 5px solid #333;
+    display: flex;
+    flex-direction: row;
+
+    * {
+        color: whitesmoke;
+        text-align: center;
+        line-height: 10vh;
+        letter-spacing: 1px;
+    }
+
+    #resetBtn {
+        width: 50vw;
+    }
+
+    #title {
+        width: 50vw;
+        font-size: 25px;
+    }
+
+    #numBombs {
+        float: left;
+        width: 20vw;
+    }
+    
+    #numMoves {
+        float: right;
+        width: 20vw;
+    }
+
+    .numberTxt {
+        color: yellow;
+        font-family: monospace;
+    }
 }
 
-#mineField {
-    background-color: palegreen;
+#container {
+    background-color: whitesmoke;
+    border: 5px solid #333;
     width: 90vw;
     height: 80vh;
+
+    #menu {
+        h1 {
+            text-align: center;
+            padding: 10px 10px 0px 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 100;
+            letter-spacing: 3px;
+        }
+    }
+}
+
+#gameboard {
+    background-color: whitesmoke;
+}
+
+#easyModeBtn{
+    background-color: lightgreen;
+    &:hover{
+        background-color: lighten($color: lightgreen, $amount: 10);
+    }
+}
+
+#mediumModeBtn{
+    background-color: rgb(236, 216, 101);
+    &:hover{
+        background-color: lighten($color: rgb(236, 216, 101), $amount: 10);
+    }
+}
+
+#hardModeBtn{
+    background-color: lightcoral;
+    &:hover{
+        background-color: lighten($color: lightcoral, $amount: 10);
+    }
+}
+
+.modeBtn {
+    margin: 10px auto 10px;
+    height: 20vh;
+    min-width: 400px;
+    width: 800px;
+
+    p {
+        text-align: center;
+        font-size: 25px;
+        line-height: 20vh;
+    }
+
+    // &:hover{
+    //     cursor: pointer;
+    // }
+}
+
+.hide {
+    display: none;
 }

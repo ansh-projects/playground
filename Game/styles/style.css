@@ -3,18 +3,111 @@ body * {
 }
 
 body {
-  background-color: pink;
+  background-color: whitesmoke;
 }
 
-#statusBar {
+#statusbar {
   width: 90vw;
   height: 10vh;
-  background-color: paleturquoise;
+  background-color: #333;
+  border: 5px solid #333;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
-#mineField {
-  background-color: palegreen;
+#statusbar * {
+  color: whitesmoke;
+  text-align: center;
+  line-height: 10vh;
+  letter-spacing: 1px;
+}
+
+#statusbar #resetBtn {
+  width: 50vw;
+}
+
+#statusbar #title {
+  width: 50vw;
+  font-size: 25px;
+}
+
+#statusbar #numBombs {
+  float: left;
+  width: 20vw;
+}
+
+#statusbar #numMoves {
+  float: right;
+  width: 20vw;
+}
+
+#statusbar .numberTxt {
+  color: yellow;
+  font-family: monospace;
+}
+
+#container {
+  background-color: whitesmoke;
+  border: 5px solid #333;
   width: 90vw;
   height: 80vh;
+}
+
+#container #menu h1 {
+  text-align: center;
+  padding: 10px 10px 0px 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 100;
+  letter-spacing: 3px;
+}
+
+#gameboard {
+  background-color: whitesmoke;
+}
+
+#easyModeBtn {
+  background-color: lightgreen;
+}
+
+#easyModeBtn:hover {
+  background-color: #bcf5bc;
+}
+
+#mediumModeBtn {
+  background-color: #ecd865;
+}
+
+#mediumModeBtn:hover {
+  background-color: #f2e392;
+}
+
+#hardModeBtn {
+  background-color: lightcoral;
+}
+
+#hardModeBtn:hover {
+  background-color: #f5aeae;
+}
+
+.modeBtn {
+  margin: 10px auto 10px;
+  height: 20vh;
+  min-width: 400px;
+  width: 800px;
+}
+
+.modeBtn p {
+  text-align: center;
+  font-size: 25px;
+  line-height: 20vh;
+}
+
+.hide {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */

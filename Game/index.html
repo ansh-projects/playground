@@ -1,15 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible">
     <title>Minesweeper</title>
     <link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
-    <div id = 'statusBar'></div>
-    <canvas id = 'mineField'></canvas>
     <script src="js/minesweeper.js"></script>
+</head>
+
+<body>
+    <div id='statusbar'>
+        <div id='numBombs'>bombs: <span class='numberTxt'>0</span></div>
+        <div id='title'>MINESWEEPER</div>
+        <div id='resetBtn' class='hide'>RESET</div>
+        <div id='numMoves'>moves: <span class='numberTxt'>69</span></div>
+    </div>
+    <div id='container'>
+        <div id='menu'>
+            <h1>CHOOSE DIFFICULTY</h1>
+            <!-- easy btn -->
+            <div id='easyModeBtn' class='modeBtn'>
+                <p>EASY</p>
+                <p class='hide'>32 × 32</p>
+            </div>
+            <!-- Medium btn -->
+            <div id='mediumModeBtn' class='modeBtn'>
+                <p>MEDIUM</p>
+                <p class='hide'>32 × 32</p>
+            </div>
+            <!-- Hard btn -->
+            <div id='hardModeBtn' class='modeBtn'>
+                <p>HARD</p>
+                <p class='hide'>32 × 32</p>
+            </div>
+        </div>
+        <script>loaded()</script>
 </body>
+
 </html>
