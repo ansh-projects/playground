@@ -25,17 +25,32 @@ function loaded(){
             resetBtn : document.getElementById('resetBtn'),
             moveNums : document.getElementById('numMoves'),
         },
-        modeBtns : [
-            document.getElementById('easyModeBtn'),
-            document.getElementById('mediumModeBtn'),
-            document.getElementById('hardModeBtn')
-        ]
+        modes : {
+            easy : {
+                button: document.getElementById('easyModeBtn'),
+                rows: 32,
+                cols: 32,
+                bombs: 17
+            },
+            medium : {
+                button: document.getElementById('mediumModeBtn'),
+                rows: 42,
+                cols: 42,
+                bombs: 21
+            },
+            hard : {
+                button: document.getElementById('hardModeBtn'),
+                rows: 64,
+                cols: 64,
+                bombs: 32
+            }
+        }
     }
-    for(var i in elems.modeBtns){
-        AttachEvent(elems.modeBtns[i], "click", start);
-        AttachEvent(elems.modeBtns[i], "mouseover", handleModeButtonHover);
-        AttachEvent(elems.modeBtns[i], "mouseleave", handleModeButtonUnHover);
-    }
+    for(var mode in elems.modes){
+        AttachEvent(elems.modes[mode].button, "click", start);
+        AttachEvent(elems.modes[mode].button, "mouseover", handleModeButtonHover);
+        AttachEvent(elems.modes[mode].button, "mouseleave", handleModeButtonUnHover);
+    }  
     console.log("loaded");
     console.log(elems);
 }
@@ -65,11 +80,16 @@ function AttachEvent(element, type, handler) {
 }
 
 function handleModeButtonHover(event) {
+    var target = event.target.innerHTML.toLowerCase();
+    //todo make switch
+    var bombs = elems.modes[target].bombs;
     this.children[0].classList.add("hide");
     this.children[1].classList.remove("hide");
+    elems.statusBar.bombNums.children[0].innerHTML = bombs;
 }
 
 function handleModeButtonUnHover(event) {
     this.children[0].classList.remove("hide");
     this.children[1].classList.add("hide");
+    elems.statusBar.bombNums.children[0].innerHTML = "&nbsp0";
 }
