@@ -76,8 +76,11 @@ var Engine = function() {
      * @param {Number} cols - Number of cols for this game
      */
     this.initCells = function(rows, cols) {
-        var max_width = Math.floor( (elems.container.scrollWidth - 50) / cols );
-        var max_height = Math.floor( (elems.container.scrollHeight  - 50) / rows );
+        TODO("Account for grid gap")
+        //var grid gap = 
+        var padding = 50;
+        var max_width = Math.floor( (elems.container.scrollWidth - padding) / cols ); // - grid gap
+        var max_height = Math.floor( (elems.container.scrollHeight  - padding) / rows ); // - grid gap
         var length = Math.min(max_width, max_height);
         var cell_id = 0;
         /* TODO */
