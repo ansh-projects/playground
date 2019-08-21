@@ -81,17 +81,34 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  gap: 2px;
 }
 
 #container #gameboard .cell {
-  width: 10px;
-  height: 10px;
-  background-color: #333;
+  background-color: #ddd;
+  transition-duration: 0.5s;
+  transition-delay: 0.2s;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-delay: 0.2s;
+}
+
+#container #gameboard .cell p {
+  display: none;
 }
 
 #container #gameboard .cell:hover {
   cursor: pointer;
-  background-color: whitesmoke;
+  background-color: #555;
+}
+
+#container #gameboard .snooped {
+  background-color: #333;
+}
+
+#container #gameboard .snooped p {
+  display: block;
+  text-align: center;
+  color: whitesmoke;
 }
 
 #easyModeBtn {

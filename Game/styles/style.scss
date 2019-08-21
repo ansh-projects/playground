@@ -73,38 +73,56 @@ body {
         display:  grid;
         align-content: center;
         justify-content: center;
+        gap: 2px;
 
-        .cell{
-            width: 10px;
-            height: 10px;
-            background-color: #333;
+        .cell {
+            background-color: #ddd;
+            transition-duration: 0.5s;
+            transition-delay: 0.2s;
+            -webkit-transition-duration: 0.5s;
+            -webkit-transition-delay: 0.2s;
 
-            &:hover{
+            p {
+                display: none;
+            }
+
+            &:hover {
                 cursor: pointer;
-                background-color: whitesmoke;
+                background-color: #555;
             }
         }
+
+        .snooped {
+            background-color: #333;
+
+            p {
+                display: block;
+                text-align: center;
+                color: whitesmoke;
+            }
+        }
+
     }
 }
 
 
-#easyModeBtn{
+#easyModeBtn {
     background-color: lightgreen;
-    &:hover{
+    &:hover {
         background-color: lighten($color: lightgreen, $amount: 10);
     }
 }
 
-#mediumModeBtn{
+#mediumModeBtn {
     background-color: rgb(236, 216, 101);
-    &:hover{
+    &:hover {
         background-color: lighten($color: rgb(236, 216, 101), $amount: 10);
     }
 }
 
-#hardModeBtn{
+#hardModeBtn {
     background-color: lightcoral;
-    &:hover{
+    &:hover {
         background-color: lighten($color: lightcoral, $amount: 10);
     }
 }
@@ -121,7 +139,7 @@ body {
         line-height: 20vh;
     }
 
-    // &:hover{
+    // &:hover {
     //     cursor: pointer;
     // }
 }
