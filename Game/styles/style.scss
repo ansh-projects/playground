@@ -22,7 +22,11 @@ body {
     }
 
     #resetBtn {
-        width: 50vw;
+        width: 25vw;
+    }
+    
+    #flagBtn {
+        width: 25vw;
     }
 
     #title {
@@ -61,11 +65,28 @@ body {
             letter-spacing: 3px;
         }
     }
+    
+    #gameboard {
+        background-color: whitesmoke;
+        width: 90vw;
+        height: 80vh;
+        display:  grid;
+        align-content: center;
+        justify-content: center;
+
+        .cell{
+            width: 10px;
+            height: 10px;
+            background-color: #333;
+
+            &:hover{
+                cursor: pointer;
+                background-color: whitesmoke;
+            }
+        }
+    }
 }
 
-#gameboard {
-    background-color: whitesmoke;
-}
 
 #easyModeBtn{
     background-color: lightgreen;

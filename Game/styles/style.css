@@ -28,7 +28,11 @@ body {
 }
 
 #statusbar #resetBtn {
-  width: 50vw;
+  width: 25vw;
+}
+
+#statusbar #flagBtn {
+  width: 25vw;
 }
 
 #statusbar #title {
@@ -66,7 +70,27 @@ body {
   letter-spacing: 3px;
 }
 
-#gameboard {
+#container #gameboard {
+  background-color: whitesmoke;
+  width: 90vw;
+  height: 80vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#container #gameboard .cell {
+  width: 10px;
+  height: 10px;
+  background-color: #333;
+}
+
+#container #gameboard .cell:hover {
+  cursor: pointer;
   background-color: whitesmoke;
 }
 
