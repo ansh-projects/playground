@@ -113,6 +113,7 @@ function handleModeButtonUnHover(event) {
     elems.statusBar.bombNums.children[0].innerHTML = "&nbsp0";
 }
 
+
 /**
  * Callback for when a the mouse is clicked on a cell.
  * Does nothing right now
@@ -120,11 +121,14 @@ function handleModeButtonUnHover(event) {
  * @param {Event} event - click event on a cell
  */
 function handleCellClick(event) {
-    TODO("move to engine");
+    //left click / single tap
+    engine.handleSelection();
     if(this.classList != 'snooped') {
-        console.log({id: this.id, cells:engine.cells})
-    }
-}
+        console.log({id: this.id, game: engine.game})
+    };
+
+    //right click / hold
+};
 
 /**
  * Personal helper function to remind what still needs to be done

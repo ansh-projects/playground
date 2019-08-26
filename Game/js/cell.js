@@ -10,23 +10,23 @@ var Cell = function(cell_elem, row, col) {
     this.cell_elem = cell_elem;       /** div for cell element */
     this.x = row;                     /** int for x position   */
     this.y = col;                     /** int for y position   */
-}
 
-Cell.prototype.proximity = -1;      /** int for proximity                     */
-Cell.prototype.snooped = false;     /** bool for if the Cell has been visited */
-Cell.prototype.is_bomb = false;     /** bool for if the Cell is a bomb        */
-Cell.prototype.flagged = false;     /** bool for if the Cell is flagged       */
+    this.proximity = -1;      /** int for proximity                     */
+    this.snooped = false;     /** bool for if the Cell has been visited */
+    this.is_bomb = false;     /** bool for if the Cell is a bomb        */
+    this.flagged = false;     /** bool for if the Cell is flagged       */
 
-/* Cell neighbours object prototype */
-Cell.prototype.neighbours = {
-    left : null,
-    top_left : null,
-    top : null,
-    top_right : null,
-    right : null,
-    bottom_right : null,
-    bottom : null,
-    bottom_left : null
+    /* Cell neighbours object */
+    this.neighbours = {
+        left : null,
+        top_left : null,
+        top : null,
+        top_right : null,
+        right : null,
+        bottom_right : null,
+        bottom : null,
+        bottom_left : null
+    }
 }
 
 /**

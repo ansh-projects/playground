@@ -4,7 +4,10 @@ var Engine = function() {
     TODO('Make grid its own Graph Object that takes in a DOM in a new js file (like cell.js)');
     TODO('Grid DOM from div to canvas for performance');
     this.grid = document.createElement('div'), /** div that holds all the cells */
-    this.game = {};     /** Game object that holds the games configurations */
+    /** Game object that holds the games configurations */
+    this.game = {
+        moves: 0,
+    };
     this.cells = [];    /** Cell array used as a Graph */ TODO("add to Graph object");
 
     /**
@@ -54,16 +57,16 @@ var Engine = function() {
 
         this.grid.setAttribute("id", "gameboard");
         var gridTemplateColumns = '';
-        var gridTemplateRows = '';
+        var gridTemplaterows = '';
         for(var i = 0; i < cols; i++){
             gridTemplateColumns += 'auto ';
         }
-        var gridTemplateRows = '';
+        var gridTemplaterows = '';
         for(var i = 0; i < rows; i++){
-            gridTemplateRows += 'auto ';
+            gridTemplaterows += 'auto ';
         }
         this.grid.style.gridTemplateColumns = gridTemplateColumns;
-        this.grid.style.gridTemplateRows = gridTemplateRows;
+        this.grid.style.gridTemplaterows = gridTemplaterows;
         elems.container.appendChild(this.grid);
         
         this.initCells(rows, cols);
@@ -76,12 +79,10 @@ var Engine = function() {
      * @param {Number} cols - Number of cols for this game
      */
     this.initCells = function(rows, cols) {
-        TODO("Account for grid gap")
-        //var grid gap = 
         var padding = 50;
         var max_width = Math.floor( (elems.container.scrollWidth - padding) / cols ); // - grid gap
         var max_height = Math.floor( (elems.container.scrollHeight  - padding) / rows ); // - grid gap
-        var length = Math.min(max_width, max_height);
+        var length = Math.min(max_width, max_height) - 1; // cell gap
         var cell_id = 0;
         /* TODO */
         TODO("get actual proximity");
@@ -109,17 +110,156 @@ var Engine = function() {
                 
                 initListener(cell, "click", handleCellClick);
                 cell_id++;
-                cell_row.push(new Cell(cell));
+                cell_row.push(new Cell(cell, row, col));
             }
             this.cells.push(cell_row);
         }
-        this.initCellNeighbours();
-    },
+        this.initCellNeighbours(rows, cols);
+    };
 
     /**
      * Initializes each cell's neighbour object
+     * Used for bfs
+     * 
+     * @param {Number} rows - Number of rows for this game
+     * @param {Number} cols - Number of cols for this game
      */
-    this.initCellNeighbours = function(){
-        TODO("implement this")
+    this.initCellNeighbours = function(rows, cols){
+        var m_border_cell = null;
+        for (var x = 0; x < cols; x++) {
+            for (var y = 0; y < rows; y++) {
+                var cell = this.cells[y][x];
+                //corner conditions
+                if ( ( x == 0 ) && ( y == 0 )) {
+                    //top-left
+                    var right = this.cells[y][x+1];
+                    var bottom = this.cells[y+1][x];
+                    var bottom_right = this.cells[y+1][x+1];
+                    cell.addNeighbours(m_border_cell, m_border_cell, m_border_cell, m_border_cell, right, bottom_right, bottom, m_border_cell);
+                    right.neighbours.left = cell;
+                    bottom_right.neighbours.top_left = cell;
+                    bottom.neighbours.top = cell;
+                } else if ( ( x == (cols-1) ) && ( y == 0 )) {
+                    //top-right
+                    var left = this.cells[y][x-1];
+                    var bottom = this.cells[y+1][x];
+                    var bottom_left = this.cells[y+1][x-1];
+                    cell.addNeighbours(left, m_border_cell, m_border_cell, m_border_cell, m_border_cell, m_border_cell, bottom, bottom_left);
+                    bottom.neighbours.top = cell;
+                    bottom_left.neighbours.top_right = cell;
+                    left.neighbours.right = cell;
+                } else if ( ( x == (cols-1) ) && ( y == (rows-1) )) {
+                    //bottom-right
+                    var top = this.cells[y-1][x];
+                    var left = this.cells[y][x-1];
+                    var top_left = this.cells[y-1][x-1];
+                    cell.addNeighbours(left, top_left, top, m_border_cell, m_border_cell, m_border_cell, m_border_cell, m_border_cell);
+                    left.neighbours.right = cell;
+                    top.neighbours.bottom = cell;
+                    top_left.neighbours.bottom_right = cell;
+                } else if ( ( x == 0 ) && ( y == (rows-1) )) {
+                    //bottom-left
+                    var right = this.cells[y][x+1];
+                    var top = this.cells[y-1][x];
+                    var top_right = this.cells[y-1][x+1];
+                    cell.addNeighbours(m_border_cell, m_border_cell, top, top_right, right, m_border_cell, m_border_cell, m_border_cell);
+                    right.neighbours.left = cell;
+                    top.neighbours.bottom = cell;
+                    top_right.neighbours.bottom_left = cell;
+                } else if (x == 0){
+                    //border conditions
+                    //left border
+                    var top = this.cells[y-1][x];
+                    var top_right = this.cells[y-1][x+1];
+                    var right = this.cells[y][x+1];
+                    var bottom_right = this.cells[y+1][x+1];
+                    var bottom = this.cells[y+1][x];
+                    cell.addNeighbours(m_border_cell, m_border_cell, top, top_right, right, bottom_right, bottom, m_border_cell);
+                    top.neighbours.bottom = cell;
+                    top_right.neighbours.bottom_left = cell;
+                    right.neighbours.left = cell;
+                    bottom_right.neighbours.top_left = cell;
+                    bottom.neighbours.top = cell;
+                } else if (y == 0) {
+                    //top border
+                    var left = this.cells[y][x-1];
+                    var right = this.cells[y][x+1];
+                    var bottom_right = this.cells[y+1][x+1];
+                    var bottom = this.cells[y+1][x];
+                    var bottom_left = this.cells[y+1][x-1];
+                    cell.addNeighbours(left, m_border_cell, m_border_cell, m_border_cell, right, bottom_right, bottom, bottom_left);
+                    left.neighbours.right = cell;
+                    right.neighbours.left = cell;
+                    bottom_right.neighbours.top_left = cell;
+                    bottom.neighbours.top = cell;
+                    bottom_left.neighbours.top_right = cell;
+                } else if (x == (cols-1)) {
+                    //right border
+                    var left = this.cells[y][x-1];
+                    var top_left = this.cells[y-1][x-1];
+                    var top = this.cells[y-1][x];
+                    var bottom = this.cells[y+1][x];
+                    var bottom_left = this.cells[y+1][x-1];
+                    cell.addNeighbours(left, top_left, top, m_border_cell, m_border_cell, m_border_cell, bottom, bottom_left);
+                    left.neighbours.right = cell;
+                    top_left.neighbours.bottom_right = cell;
+                    top.neighbours.bottom = cell;
+                    bottom.neighbours.top = cell;
+                    bottom_left.neighbours.top_right = cell;
+                } else if (y == (rows-1)) {
+                    //bottom border
+                    var left = this.cells[y][x-1];
+                    var top_left = this.cells[y-1][x-1];
+                    var top = this.cells[y-1][x];
+                    var top_right = this.cells[y-1][x+1];
+                    var right = this.cells[y][x+1];
+                    cell.addNeighbours(left, top_left, top, top_right, right, m_border_cell, m_border_cell, m_border_cell);
+                    left.neighbours.right = cell;
+                    top_left.neighbours.bottom_right = cell;
+                    top.neighbours.bottom = cell;
+                    top_right.neighbours.bottom_left = cell;
+                    right.neighbours.left = cell;
+                } else {
+                    //everything else
+                    var left = this.cells[y][x-1];
+                    var top = this.cells[y-1][x];
+                    var right = this.cells[y][x+1];
+                    var bottom = this.cells[y+1][x];
+                    var top_left = this.cells[y-1][x-1];
+                    var top_right = this.cells[y-1][x+1];
+                    var bottom_left = this.cells[y+1][x-1];
+                    var bottom_right = this.cells[y+1][x+1];
+                    cell.addNeighbours(left, top_left, top, top_right, right, bottom_right, bottom, bottom_left);
+                    left.neighbours.right = cell;
+                    top.neighbours.bottom = cell;
+                    right.neighbours.left = cell;
+                    bottom.neighbours.top = cell;
+                    bottom_right.neighbours.top_left = cell;
+                    bottom_left.neighbours.top_right = cell;
+                    top_right.neighbours.bottom_left = cell;
+                    top_left.neighbours.bottom_right = cell;
+                }
+            }
+        }
+    };
+
+    this.handleSelection = function() {
+        console.log('move: ' + this.game.moves);
+        if(this.game.moves == 0)
+        {
+            console.log('first');
+            // initBombs(cell);
+        }
+        this.game.moves++;
+        printf("Cell ( %d, %d ): bomb: %s\n", cell.x, cell.y, cell.is_bomb ? "true" : "false");
+        if(cell.is_bomb)
+        {
+            gameOver(cell);
+        }
+        else
+        {
+            search(cell);
+        }
+        printBoard();
     }
-}
+};
