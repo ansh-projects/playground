@@ -7,9 +7,9 @@ var Engine = function() {
     /** Game object that holds the games configurations */
     this.game = {
         moves: 0,
+        started: false, /** Boolean for if the game has started or not */
+        flagMode: false /** Boolean for if the selection is for flagging or sniffing */
     };
-
-    this.started = false; /** Boolean for if the game has started or not */
 
     this.cells = [];    /** Cell array used as a Graph */ TODO("add to Graph object");
 
@@ -33,10 +33,12 @@ var Engine = function() {
             default:
             break;
         }
+        initListener(elems.statusBar.resetBtn, "click", this.reset);
+        initListener(elems.statusBar.flagBtn,  "click", this.toggleFlagging);
     };
 
     this.gameStarted = function() {
-        return this.started;
+        return this.game.started;
     }
 
     /**
@@ -97,7 +99,6 @@ var Engine = function() {
         for(var row = 0; row < rows; row++){
             var cell_row = [];
             for(var col = 0; col < cols; col++){
-                //
                 var cell = document.createElement('div');
                 cell.setAttribute("id", cell_id);
                 cell.style.width = length + 'px';
@@ -264,12 +265,12 @@ var Engine = function() {
                         cell.proximity++;
                     }
                 };
-                // proximity text TODO("probably remove from")
                 var proximity = document.createElement('p');
                 proximity.setAttribute("class", "proximityText");
                 if(cell.proximity > 0){
                     proximity.innerHTML = cell.proximity;
                     proximity.style.lineHeight = cell.cell_elem.style.width;
+                    proximity.style.fontSize = '75%';
                     cell.cell_elem.appendChild(proximity);
                 }
             });
@@ -336,9 +337,23 @@ var Engine = function() {
         }
         return;
     };
-
-
     
+    /**
+     * Toggles flag selection or sniffing
+     */
+    this.toggleFlagging = function(){
+        TODO('toggle flag / sniffing mode')
+        console.log("flag selection: " + this.game.flagMode);
+    }
+    
+    /**
+     * Resets the game.
+     */
+    this.reset = function(){
+        TODO('reset')
+        console.log("Game reset");
+    }
+
     /**
      * Prints the board onto console.log
      */
@@ -354,4 +369,5 @@ var Engine = function() {
         });
         console.log(board);
     };
+
 };
