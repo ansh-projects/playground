@@ -8,6 +8,9 @@ var Engine = function() {
     this.game = {
         moves: 0,
     };
+
+    this.started = false; /** Boolean for if the game has started or not */
+
     this.cells = [];    /** Cell array used as a Graph */ TODO("add to Graph object");
 
     /**
@@ -24,12 +27,17 @@ var Engine = function() {
             case 'medium':
             case 'hard':
                 this.initGame(mode);
+                this.started = true;
             break;
             
             default:
             break;
         }
     };
+
+    this.gameStarted = function() {
+        return this.started;
+    }
 
     /**
      * Initializes the game with the recieved mode
@@ -84,30 +92,16 @@ var Engine = function() {
         var max_height = Math.floor( (elems.container.scrollHeight  - padding) / rows ); // - grid gap
         var length = Math.min(max_width, max_height) - 1; // cell gap
         var cell_id = 0;
-        /* TODO */
-        TODO("get actual proximity");
         for(var row = 0; row < rows; row++){
             var cell_row = [];
             for(var col = 0; col < cols; col++){
                 //
                 var cell = document.createElement('div');
-                cell.setAttribute("id", "cell" + cell_id);
+                cell.setAttribute("id", cell_id);
                 cell.style.width = length + 'px';
                 cell.style.height = length + 'px';
                 cell.setAttribute("class", "cell");
                 this.grid.appendChild(cell);
-                // proximity text TODO("probably remove from")
-                var proximity = document.createElement('p');
-                proximity.setAttribute("class", "proximityText");
-                if( cell_id % 9 == 0 ){
-                    proximity.innerHTML = ' ';
-                } else {
-                    // cell.setAttribute('class', 'snooped');
-                    proximity.innerHTML = cell_id % 9;
-                }
-                proximity.style.lineHeight = length + 'px';
-                cell.appendChild(proximity);
-                
                 initListener(cell, "click", handleCellClick);
                 cell_id++;
                 cell_row.push(new Cell(cell, row, col));
@@ -243,23 +237,119 @@ var Engine = function() {
         }
     };
 
-    this.handleSelection = function() {
+    /**
+     * initializes bombs on the board
+     * 
+     * @param cell - starting cell, cant be the bomb
+     */
+    this.initBombs = function(cell) {
+        for (var i = 0; i < this.game.mode.bombs; i++){
+            var randomCol = Math.ceil(Math.random() * this.game.mode.cols) - 1;
+            var randomRow = Math.ceil(Math.random() * this.game.mode.rows) - 1;
+            var bomb_cell = this.cells[randomRow][randomCol];
+            if(bomb_cell.x == cell.x && bomb_cell.y == cell.y)
+            {
+                i--;
+                continue;
+            }
+            bomb_cell.is_bomb = true;
+        };
+
+        this.cells.forEach(cellRow => {
+            cellRow.forEach(cell => {
+                for(neighbour in cell.neighbours){
+                    if(cell.neighbours[neighbour] && cell.neighbours[neighbour].is_bomb){
+                        cell.proximity++;
+                    }
+                };
+                // proximity text TODO("probably remove from")
+                var proximity = document.createElement('p');
+                proximity.setAttribute("class", "proximityText");
+                if(cell.proximity > 0){
+                    proximity.innerHTML = cell.proximity;
+                    proximity.style.lineHeight = cell.cell_elem.style.width;
+                    cell.cell_elem.appendChild(proximity);
+                }
+            });
+        });
+    };
+
+    /**
+     * Handles mouse click based on the cell clicked
+     * @param {String} cell_elem_id - the html element's id 
+     */
+    this.handleSelection = function(cell_elem_id) {
+        elems.statusBar.numMoves.children[0].innerHTML = ++this.game.moves;
         console.log('move: ' + this.game.moves);
-        if(this.game.moves == 0)
+        cell_elem_id = parseInt(cell_elem_id);
+        var row = Math.floor(cell_elem_id / this.game.mode.cols);
+        var col = cell_elem_id % this.game.mode.cols;
+        var cell = this.cells[row][col]
+        if(this.game.moves == 1)
         {
-            console.log('first');
-            // initBombs(cell);
+            console.log('first move');
+            elems.statusBar.numBombs.children[0].innerHTML = "test";
+            this.initBombs(cell);
         }
-        this.game.moves++;
-        printf("Cell ( %d, %d ): bomb: %s\n", cell.x, cell.y, cell.is_bomb ? "true" : "false");
+        console.log("Cell ( %d, %d ): bomb: %s\n", cell.x, cell.y, cell.is_bomb ? "true" : "false");
         if(cell.is_bomb)
         {
-            gameOver(cell);
+            this.gameOver(cell);
         }
         else
         {
-            search(cell);
+            this.search(cell);
         }
-        printBoard();
-    }
+        this.printBoard();
+    };
+    
+    /**
+     * Game Over
+     * 
+     * @param cell - losing cell
+     */
+    this.gameOver = function(cell){
+        TODO('unveil all');
+        console.log("GAME OVER");
+    };
+    
+    /**
+     * bfs search
+     * @param cell - cell that the bfs starts at
+     */
+    this.search = function(cell){    
+        //base case
+        if(!cell || cell.snooped)
+        {
+            return;
+        }
+        cell.snooped = true;
+        cell.cell_elem.classList.add('snooped');
+        if(cell.proximity > 0) {
+            return;
+        } else {
+            for(neighbour in cell.neighbours){
+                this.search(cell.neighbours[neighbour]);
+            };
+        }
+        return;
+    };
+
+
+    
+    /**
+     * Prints the board onto console.log
+     */
+    this.printBoard = function(){
+        var board = '';
+        this.cells.forEach(cellRow => {
+            var row = '';
+            cellRow.forEach(cell => {
+                var cell_val = cell.is_bomb ? 'x' : cell.proximity;
+                row += '[' + cell_val + '] ';
+            })
+            board += row + '\n';
+        });
+        console.log(board);
+    };
 };

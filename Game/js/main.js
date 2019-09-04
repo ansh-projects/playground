@@ -8,6 +8,7 @@ TODO("Add error handling");
 var elems; 
 /** Engine object */
 var engine;
+var gameStarted; /** boolean for if the game has started */
 
 /**
  * Called at the end of body after it's loaded
@@ -18,11 +19,11 @@ function loaded(){
         menu : document.getElementById('menu'),
         container : document.getElementById('container'),
         statusBar : {
-            bombNums : document.getElementById('numBombs'),
+            numBombs : document.getElementById('numBombs'),
             title    : document.getElementById('title'),
             resetBtn : document.getElementById('resetBtn'),
             flagBtn  : document.getElementById('flagBtn'),
-            moveNums : document.getElementById('numMoves'),
+            numMoves : document.getElementById('numMoves'),
         },
         modes : {
             easy : {
@@ -63,6 +64,7 @@ function loaded(){
 function start(event) {
     engine = new Engine;
     engine.start(event);
+    gameStarted = engine.gameStarted();
 }
 
 /**
@@ -82,7 +84,7 @@ function initListener(element, type, callback) {
  */
 function handleModeButtonHover(event) {
     var mode = event.target.innerHTML.toLowerCase();
-    var bombs = elems.statusBar.bombNums.children[0].innerHTML;
+    var bombs = elems.statusBar.numBombs.children[0].innerHTML;
 
     switch (mode) {
         case 'easy':
@@ -99,7 +101,7 @@ function handleModeButtonHover(event) {
 
     this.children[0].classList.add("hide");
     this.children[1].classList.remove("hide");
-    elems.statusBar.bombNums.children[0].innerHTML = bombs;
+    elems.statusBar.numBombs.children[0].innerHTML = bombs;
 }
 
 /**
@@ -108,9 +110,11 @@ function handleModeButtonHover(event) {
  * @param {Event} event - mouseleave event on a mode button
  */
 function handleModeButtonUnHover(event) {
-    this.children[0].classList.remove("hide");
-    this.children[1].classList.add("hide");
-    elems.statusBar.bombNums.children[0].innerHTML = "&nbsp0";
+    if(!gameStarted){
+        this.children[0].classList.remove("hide");
+        this.children[1].classList.add("hide");
+        elems.statusBar.numBombs.children[0].innerHTML = "&nbsp0";
+    }
 }
 
 
@@ -122,9 +126,8 @@ function handleModeButtonUnHover(event) {
  */
 function handleCellClick(event) {
     //left click / single tap
-    engine.handleSelection();
-    if(this.classList != 'snooped') {
-        console.log({id: this.id, game: engine.game})
+    if(!this.classList.contains('snooped')) {
+        engine.handleSelection(this.id);
     };
 
     //right click / hold

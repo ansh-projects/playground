@@ -11,7 +11,7 @@ var Cell = function(cell_elem, row, col) {
     this.x = row;                     /** int for x position   */
     this.y = col;                     /** int for y position   */
 
-    this.proximity = -1;      /** int for proximity                     */
+    this.proximity = 0;       /** int for proximity                     */
     this.snooped = false;     /** bool for if the Cell has been visited */
     this.is_bomb = false;     /** bool for if the Cell is a bomb        */
     this.flagged = false;     /** bool for if the Cell is flagged       */

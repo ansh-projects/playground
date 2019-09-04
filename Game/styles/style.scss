@@ -64,6 +64,39 @@ body {
             font-weight: 100;
             letter-spacing: 3px;
         }
+
+        #easyModeBtn {
+            background-color: lightgreen;
+            &:hover {
+                background-color: lighten($color: lightgreen, $amount: 10);
+            }
+        }
+        
+        #mediumModeBtn {
+            background-color: rgb(236, 216, 101);
+            &:hover {
+                background-color: lighten($color: rgb(236, 216, 101), $amount: 10);
+            }
+        }
+        
+        #hardModeBtn {
+            background-color: lightcoral;
+            &:hover {
+                background-color: lighten($color: lightcoral, $amount: 10);
+            }
+        }
+        
+        .modeBtn {
+            margin: 10px auto 10px;
+            height: 20vh;
+            width: 85%;
+        
+            p {
+                text-align: center;
+                font-size: 25px;
+                line-height: 20vh;
+            }
+        }
     }
     
     #gameboard {
@@ -84,9 +117,14 @@ body {
 
             p {
                 display: none;
+                user-select: none; /* supported by Chrome and Opera */
+                -webkit-user-select: none; /* Safari */
+                -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
             }
 
-            &:hover {
+            &:not(.snooped):hover {
                 cursor: pointer;
                 background-color: #555;
             }
@@ -102,46 +140,10 @@ body {
             }
         }
 
+        .flagged {
+            background-color: yellow;
+        }
     }
-}
-
-
-#easyModeBtn {
-    background-color: lightgreen;
-    &:hover {
-        background-color: lighten($color: lightgreen, $amount: 10);
-    }
-}
-
-#mediumModeBtn {
-    background-color: rgb(236, 216, 101);
-    &:hover {
-        background-color: lighten($color: rgb(236, 216, 101), $amount: 10);
-    }
-}
-
-#hardModeBtn {
-    background-color: lightcoral;
-    &:hover {
-        background-color: lighten($color: lightcoral, $amount: 10);
-    }
-}
-
-.modeBtn {
-    margin: 10px auto 10px;
-    height: 20vh;
-    min-width: 400px;
-    width: 800px;
-
-    p {
-        text-align: center;
-        font-size: 25px;
-        line-height: 20vh;
-    }
-
-    // &:hover {
-    //     cursor: pointer;
-    // }
 }
 
 .hide {

@@ -70,6 +70,42 @@ body {
   letter-spacing: 3px;
 }
 
+#container #menu #easyModeBtn {
+  background-color: lightgreen;
+}
+
+#container #menu #easyModeBtn:hover {
+  background-color: #bcf5bc;
+}
+
+#container #menu #mediumModeBtn {
+  background-color: #ecd865;
+}
+
+#container #menu #mediumModeBtn:hover {
+  background-color: #f2e392;
+}
+
+#container #menu #hardModeBtn {
+  background-color: lightcoral;
+}
+
+#container #menu #hardModeBtn:hover {
+  background-color: #f5aeae;
+}
+
+#container #menu .modeBtn {
+  margin: 10px auto 10px;
+  height: 20vh;
+  width: 85%;
+}
+
+#container #menu .modeBtn p {
+  text-align: center;
+  font-size: 25px;
+  line-height: 20vh;
+}
+
 #container #gameboard {
   background-color: whitesmoke;
   width: 90vw;
@@ -94,9 +130,19 @@ body {
 
 #container #gameboard .cell p {
   display: none;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
 }
 
-#container #gameboard .cell:hover {
+#container #gameboard .cell:not(.snooped):hover {
   cursor: pointer;
   background-color: #555;
 }
@@ -111,41 +157,8 @@ body {
   color: whitesmoke;
 }
 
-#easyModeBtn {
-  background-color: lightgreen;
-}
-
-#easyModeBtn:hover {
-  background-color: #bcf5bc;
-}
-
-#mediumModeBtn {
-  background-color: #ecd865;
-}
-
-#mediumModeBtn:hover {
-  background-color: #f2e392;
-}
-
-#hardModeBtn {
-  background-color: lightcoral;
-}
-
-#hardModeBtn:hover {
-  background-color: #f5aeae;
-}
-
-.modeBtn {
-  margin: 10px auto 10px;
-  height: 20vh;
-  min-width: 400px;
-  width: 800px;
-}
-
-.modeBtn p {
-  text-align: center;
-  font-size: 25px;
-  line-height: 20vh;
+#container #gameboard .flagged {
+  background-color: yellow;
 }
 
 .hide {
