@@ -49,7 +49,9 @@ var Engine = function() {
         this.game.mode = elems.modes[mode];
         elems.statusBar.title.classList.add("hide");
         elems.statusBar.resetBtn.classList.remove("hide");
+        elems.statusBar.resetBtn.classList.add("statusBarButton");
         elems.statusBar.flagBtn.classList.remove("hide");
+        elems.statusBar.flagBtn.classList.add("statusBarButton");
         this.initGrid()
     };
 
