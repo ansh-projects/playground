@@ -7,6 +7,7 @@ var Engine = function() {
     /** Game object that holds the games configurations */
     this.game = {
         moves: 0,
+        bombs: 0, 
         started: false, /** Boolean for if the game has started or not */
         flagMode: false /** Boolean for if the selection is for flagging or sniffing */
     };
@@ -54,7 +55,8 @@ var Engine = function() {
         elems.statusBar.resetBtn.classList.add("statusBarButton");
         elems.statusBar.flagBtn.classList.remove("hide");
         elems.statusBar.flagBtn.classList.add("statusBarButton");
-        this.initGrid()
+        this.game.bombs = this.game.mode.bombs;
+        this.initGrid();
     };
 
     /**
@@ -257,7 +259,6 @@ var Engine = function() {
             }
             bomb_cell.is_bomb = true;
         };
-
         this.cells.forEach(cellRow => {
             cellRow.forEach(cell => {
                 for(neighbour in cell.neighbours){
@@ -290,8 +291,9 @@ var Engine = function() {
         var cell = this.cells[row][col]
         if(this.game.moves == 1)
         {
-            console.log('first move');
-            elems.statusBar.numBombs.children[0].innerHTML = "test";
+            console.log('first move, bombs: ' + this.game.bombs);
+            elems.statusBar.numBombs.children[0].innerHTML = this.game.bombs;
+
             this.initBombs(cell);
         }
         console.log("Cell ( %d, %d ): bomb: %s\n", cell.x, cell.y, cell.is_bomb ? "true" : "false");
