@@ -28,6 +28,16 @@ body {
     
     #flagBtn {
         margin-left: 5px;
+
+    }
+    
+    .flagging{
+        background-color: pink;
+
+        &:hover{
+            background-color: yellowgreen;
+            cursor: pointer;
+        }
     }
 
     .statusBarButton {
@@ -38,7 +48,7 @@ body {
         -webkit-transition-duration: 0.3s;
         -webkit-transition-delay: 0.1s;
 
-        &:hover{
+        &:hover:not(.flagging){
             background-color: #555;
             cursor: pointer;
         }

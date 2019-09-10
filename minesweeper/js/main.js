@@ -15,6 +15,7 @@ var gameStarted; /** boolean for if the game has started */
  * Populates elems and initializes event listeners
  */
 function loaded(){
+    engine = new Engine;
     elems = {
         menu : document.getElementById('menu'),
         container : document.getElementById('container'),
@@ -47,6 +48,8 @@ function loaded(){
         }
     }
 
+    initListener(elems.statusBar.flagBtn, "click", engine.toggleFlagging);
+
     for(var mode in elems.modes){
         initListener(elems.modes[mode].button, "click",      start);
         initListener(elems.modes[mode].button, "mouseover",  handleModeButtonHover);
@@ -62,7 +65,6 @@ function loaded(){
  * @param {HTMLElement} event - click event recieved from the mode button
  */
 function start(event) {
-    engine = new Engine;
     engine.start(event);
     gameStarted = engine.gameStarted();
 }

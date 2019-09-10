@@ -339,11 +339,19 @@ var Engine = function() {
     };
     
     /**
-     * Toggles flag selection or sniffing
+     * Toggles flag selection or sniffing, called in main scope
      */
     this.toggleFlagging = function(){
-        TODO('toggle flag / sniffing mode')
-        console.log("flag selection: " + this.game.flagMode);
+        if(engine.game.flagMode){
+            engine.game.flagMode = false;
+            elems.statusBar.flagBtn.classList.remove('flagging');
+            elems.statusBar.flagBtn.innerHTML = "FLAG";
+        } else {
+            engine.game.flagMode = true;
+            elems.statusBar.flagBtn.classList.add('flagging');
+            elems.statusBar.flagBtn.innerHTML = "FLAGGING";
+        }
+        TODO("Actual Togging");
     }
     
     /**

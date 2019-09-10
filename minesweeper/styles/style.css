@@ -36,6 +36,15 @@ body {
   margin-left: 5px;
 }
 
+#statusbar .flagging {
+  background-color: pink;
+}
+
+#statusbar .flagging:hover {
+  background-color: yellowgreen;
+  cursor: pointer;
+}
+
 #statusbar .statusBarButton {
   width: 25vw;
   border: 1px solid yellow;
@@ -45,7 +54,7 @@ body {
   -webkit-transition-delay: 0.1s;
 }
 
-#statusbar .statusBarButton:hover {
+#statusbar .statusBarButton:hover:not(.flagging) {
   background-color: #555;
   cursor: pointer;
 }
