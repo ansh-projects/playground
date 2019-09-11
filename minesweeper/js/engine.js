@@ -9,7 +9,7 @@ var Engine = function() {
         moves: 0,
         bombs: 0, 
         started: false, /** Boolean for if the game has started or not */
-        flagMode: false /** Boolean for if the selection is for flagging or sniffing */
+        flagging: false /** Boolean for if the selection is for flagging or sniffing */
     };
 
     this.cells = [];    /** Cell array used as a Graph */ TODO("add to Graph object");
@@ -280,30 +280,49 @@ var Engine = function() {
 
     /**
      * Handles mouse click based on the cell clicked
-     * @param {String} cell_elem_id - the html element's id 
+     * @param {String} cell_elem - the html element
      */
-    this.handleSelection = function(cell_elem_id) {
+    this.handleSelection = function(cell_elem) {
+        if(cell_elem.classList.contains('snooped')) {
+            console.log("Snooped");
+            return;
+        };
+        if(cell_elem.classList.contains('flagged') && !this.game.flagging) {
+            console.log("Flagged");
+            return;
+        };
         elems.statusBar.numMoves.children[0].innerHTML = ++this.game.moves;
         console.log('move: ' + this.game.moves);
-        cell_elem_id = parseInt(cell_elem_id);
+        cell_elem_id = parseInt(cell_elem.id);
         var row = Math.floor(cell_elem_id / this.game.mode.cols);
         var col = cell_elem_id % this.game.mode.cols;
-        var cell = this.cells[row][col]
-        if(this.game.moves == 1)
-        {
+        var cell = this.cells[row][col];
+        
+        if(this.game.moves == 1){
             console.log('first move, bombs: ' + this.game.bombs);
             elems.statusBar.numBombs.children[0].innerHTML = this.game.bombs;
-
             this.initBombs(cell);
         }
-        console.log("Cell ( %d, %d ): bomb: %s\n", cell.x, cell.y, cell.is_bomb ? "true" : "false");
-        if(cell.is_bomb)
-        {
-            this.gameOver(cell);
-        }
-        else
-        {
-            this.search(cell);
+
+        if(this.game.flagging){
+            console.log("flagging");
+            if(cell.flagged){
+                this.game.bombs++;
+                cell.flagged = false;
+                cell.cell_elem.classList.remove('flagged');
+            } else {
+                this.game.bombs--;
+                cell.flagged = true;
+                cell.cell_elem.classList.add('flagged');
+            }
+            elems.statusBar.numBombs.children[0].innerHTML = this.game.bombs;
+        } else {    
+            console.log("Cell ( %d, %d ): bomb: %s\n", cell.x, cell.y, cell.is_bomb ? "true" : "false");
+            if(cell.is_bomb) {
+                this.gameOver(cell);
+            } else {
+                this.search(cell);
+            }
         }
         this.printBoard();
     };
@@ -344,16 +363,15 @@ var Engine = function() {
      * Toggles flag selection or sniffing, called in main scope
      */
     this.toggleFlagging = function(){
-        if(engine.game.flagMode){
-            engine.game.flagMode = false;
+        if(engine.game.flagging){
+            engine.game.flagging = false;
             elems.statusBar.flagBtn.classList.remove('flagging');
             elems.statusBar.flagBtn.innerHTML = "FLAG";
         } else {
-            engine.game.flagMode = true;
+            engine.game.flagging = true;
             elems.statusBar.flagBtn.classList.add('flagging');
             elems.statusBar.flagBtn.innerHTML = "FLAGGING";
         }
-        TODO("Actual Togging");
     }
     
     /**

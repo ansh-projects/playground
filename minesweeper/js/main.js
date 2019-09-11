@@ -128,9 +128,7 @@ function handleModeButtonUnHover(event) {
  */
 function handleCellClick(event) {
     //left click / single tap
-    if(!this.classList.contains('snooped')) {
-        engine.handleSelection(this.id);
-    };
+    engine.handleSelection(this);
 
     //right click / hold
 };

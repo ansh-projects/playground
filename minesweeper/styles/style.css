@@ -166,7 +166,7 @@ body {
   /* Internet Explorer/Edge */
 }
 
-#container #gameboard .cell:not(.snooped):hover {
+#container #gameboard .cell:not(.snooped):not(.flagged):hover {
   cursor: pointer;
   background-color: #555;
 }
@@ -183,6 +183,14 @@ body {
 
 #container #gameboard .flagged {
   background-color: yellow;
+}
+
+#container #gameboard .flagged p {
+  visibility: hidden;
+}
+
+#container #gameboard .flagged:hover {
+  background-color: palegoldenrod;
 }
 
 .hide {
