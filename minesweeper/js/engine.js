@@ -314,6 +314,12 @@ var Engine = function() {
                 this.game.bombs--;
                 cell.flagged = true;
                 cell.cell_elem.classList.add('flagged');
+                if(this.game.bombs === 0){
+                    if(this.checkFlags()){
+                        TODO("Game over - Win");
+                        alert("WINNER!");
+                    }
+                }
             }
             elems.statusBar.numBombs.children[0].innerHTML = this.game.bombs;
         } else {    
@@ -343,7 +349,7 @@ var Engine = function() {
      */
     this.search = function(cell){    
         //base case
-        if(!cell || cell.snooped)
+        if(!cell || cell.snooped || cell.flagged)
         {
             return;
         }
@@ -380,7 +386,7 @@ var Engine = function() {
     this.reset = function(){
         TODO('reset')
         console.log("Game reset");
-    }
+    };
 
     /**
      * Prints the board onto console.log
@@ -396,6 +402,22 @@ var Engine = function() {
             board += row + '\n';
         });
         console.log(board);
+    };
+
+    /**
+     * Checks if the flagged cells are bombs.
+     * @returns true if all flagged cells are bombs.
+     */
+    this.checkFlags = function(){
+        var ret = true;
+        this.cells.forEach(cellRow => {
+            cellRow.forEach(cell => {
+                if(cell.flagged && !cell.is_bomb){
+                    ret = false;
+                }
+            });
+        });
+        return ret;
     };
 
 };
