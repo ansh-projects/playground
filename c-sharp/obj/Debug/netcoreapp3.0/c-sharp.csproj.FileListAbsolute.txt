@@ -1,0 +1,11 @@
+/home/ansh/Documents/GitHub/playground/c-sharp/bin/Debug/netcoreapp3.0/c-sharp
+/home/ansh/Documents/GitHub/playground/c-sharp/bin/Debug/netcoreapp3.0/c-sharp.deps.json
+/home/ansh/Documents/GitHub/playground/c-sharp/bin/Debug/netcoreapp3.0/c-sharp.runtimeconfig.json
+/home/ansh/Documents/GitHub/playground/c-sharp/bin/Debug/netcoreapp3.0/c-sharp.runtimeconfig.dev.json
+/home/ansh/Documents/GitHub/playground/c-sharp/bin/Debug/netcoreapp3.0/c-sharp.dll
+/home/ansh/Documents/GitHub/playground/c-sharp/bin/Debug/netcoreapp3.0/c-sharp.pdb
+/home/ansh/Documents/GitHub/playground/c-sharp/obj/Debug/netcoreapp3.0/c-sharp.csprojAssemblyReference.cache
+/home/ansh/Documents/GitHub/playground/c-sharp/obj/Debug/netcoreapp3.0/c-sharp.AssemblyInfoInputs.cache
+/home/ansh/Documents/GitHub/playground/c-sharp/obj/Debug/netcoreapp3.0/c-sharp.AssemblyInfo.cs
+/home/ansh/Documents/GitHub/playground/c-sharp/obj/Debug/netcoreapp3.0/c-sharp.dll
+/home/ansh/Documents/GitHub/playground/c-sharp/obj/Debug/netcoreapp3.0/c-sharp.pdb
