@@ -6,7 +6,8 @@ namespace c_sharp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            TestClass t = new TestClass();
+            Console.WriteLine($"Hello World! {t.ReturnMessage()}");
         }
     }
 }
