@@ -1,0 +1,11 @@
+C:\Users\shukl\Source\Repos\playground\CSNodes\bin\Debug\netcoreapp3.1\CSNodes.exe
+C:\Users\shukl\Source\Repos\playground\CSNodes\bin\Debug\netcoreapp3.1\CSNodes.deps.json
+C:\Users\shukl\Source\Repos\playground\CSNodes\bin\Debug\netcoreapp3.1\CSNodes.runtimeconfig.json
+C:\Users\shukl\Source\Repos\playground\CSNodes\bin\Debug\netcoreapp3.1\CSNodes.runtimeconfig.dev.json
+C:\Users\shukl\Source\Repos\playground\CSNodes\bin\Debug\netcoreapp3.1\CSNodes.dll
+C:\Users\shukl\Source\Repos\playground\CSNodes\bin\Debug\netcoreapp3.1\CSNodes.pdb
+C:\Users\shukl\Source\Repos\playground\CSNodes\obj\Debug\netcoreapp3.1\CSNodes.csprojAssemblyReference.cache
+C:\Users\shukl\Source\Repos\playground\CSNodes\obj\Debug\netcoreapp3.1\CSNodes.AssemblyInfoInputs.cache
+C:\Users\shukl\Source\Repos\playground\CSNodes\obj\Debug\netcoreapp3.1\CSNodes.AssemblyInfo.cs
+C:\Users\shukl\Source\Repos\playground\CSNodes\obj\Debug\netcoreapp3.1\CSNodes.dll
+C:\Users\shukl\Source\Repos\playground\CSNodes\obj\Debug\netcoreapp3.1\CSNodes.pdb
